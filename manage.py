@@ -4,6 +4,8 @@ import os
 import sys
 import requests
 
+from savings_bot.settings import TG_TOKEN, WEBHOOK_URL
+
 
 def main():
     """Run administrative tasks."""
@@ -20,11 +22,8 @@ def main():
 
 
 def set_webhook():
-    bot_token = '6134564626:AAEbztmjrLySxHnz3wiRKq4_5DuSzTYotBU'
-    webhook_url = 'https://d0b9-93-73-222-85.ngrok-free.app/webhook/'
-
     response = requests.get(
-        f'https://api.telegram.org/bot{bot_token}/setWebhook?url={webhook_url}'
+        f'https://api.telegram.org/bot{TG_TOKEN}/setWebhook?url={WEBHOOK_URL}'
     )
 
     print(response.text)

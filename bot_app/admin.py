@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from bot_app.models import TelegramUser, Saving
+
+admin.site.register(TelegramUser)
+admin.site.register(Saving)

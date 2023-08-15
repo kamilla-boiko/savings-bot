@@ -1,13 +1,14 @@
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.core.exceptions import ObjectDoesNotExist
-from bot_app.models import TelegramUser, Saving
-import telebot
 from decimal import Decimal
 
-TOKEN = "6134564626:AAEbztmjrLySxHnz3wiRKq4_5DuSzTYotBU"
-bot = telebot.TeleBot(TOKEN)
-WEBHOOK_URL = "https://d0b9-93-73-222-85.ngrok-free.app/webhook/"
+import telebot
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+from bot_app.models import TelegramUser, Saving
+from savings_bot.settings import TG_TOKEN
+
+bot = telebot.TeleBot(TG_TOKEN)
 
 
 def send_welcome_message(message, created):
@@ -90,19 +91,19 @@ def process_amount_step(message, telegram_user, name):
 
         if existing_saving:
             print(
-                f"Updating existing saving: {name} - {existing_saving.amount} + {amount}"
+                f"Updating existing saving: {name}: {existing_saving.amount} + {amount}"
             )
             existing_saving.amount += amount
             existing_saving.save()
             bot.send_message(
                 message.chat.id,
-                f"Updated existing record: {name} - {existing_saving.amount}",
+                f"Updated existing record. {name}: {existing_saving.amount}",
             )
         else:
-            print(f"Creating new saving: {name} - {amount}")
+            print(f"Creating new saving: {name}: {amount}")
             saving = Saving.objects.create(name=name, amount=amount, user=telegram_user)
             bot.send_message(
-                message.chat.id, f"Saved new record: {saving.name} - {saving.amount}"
+                message.chat.id, f"Saved new record. {saving.name}: {saving.amount}"
             )
     except ValueError:
         bot.send_message(

@@ -9,8 +9,12 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +24,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-1&h^jo1jlne#1_7wh+nv!^(9^_o1n8)#tw=oo26o70ki@xhuk#"
+SECRET_KEY = os.environ["SECRET_KEY"]
+
+TG_TOKEN = "6134564626:AAEbztmjrLySxHnz3wiRKq4_5DuSzTYotBU"
+
+WEBHOOK_URL = os.environ.get("WEBHOOK_URL")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", default="False") == "True"
 
-ALLOWED_HOSTS = ["d0b9-93-73-222-85.ngrok-free.app"]
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "d0b9-93-73-222-85.ngrok-free.app"
+]
 
 
 # Application definition
@@ -97,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Europe/Kiev"
 
 USE_I18N = True
 
