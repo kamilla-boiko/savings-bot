@@ -36,9 +36,12 @@ DEBUG = os.environ.get("DEBUG", default="False") == "True"
 
 ALLOWED_HOSTS = [
     "127.0.0.1",
-    "d0b9-93-73-222-85.ngrok-free.app"
+    "savingbot.onrender.com"
 ]
 
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 
 # Application definition
 
