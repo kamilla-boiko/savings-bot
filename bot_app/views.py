@@ -83,16 +83,10 @@ def process_name_step(message, telegram_user):
 
 def process_amount_step(message, telegram_user, name):
     try:
-        print(f"Processing amount step for user: {telegram_user}, name: {name}")
         amount = Decimal(message.text)
-
         existing_saving = Saving.objects.filter(name=name, user=telegram_user).first()
-        print("Existing saving:", existing_saving)
 
         if existing_saving:
-            print(
-                f"Updating existing saving: {name}: {existing_saving.amount} + {amount}"
-            )
             existing_saving.amount += amount
             existing_saving.save()
             bot.send_message(
@@ -100,7 +94,6 @@ def process_amount_step(message, telegram_user, name):
                 f"Updated existing record. {name}: {existing_saving.amount}",
             )
         else:
-            print(f"Creating new saving: {name}: {amount}")
             saving = Saving.objects.create(name=name, amount=amount, user=telegram_user)
             bot.send_message(
                 message.chat.id, f"Saved new record. {saving.name}: {saving.amount}"
